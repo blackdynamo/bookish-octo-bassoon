@@ -13,21 +13,17 @@ export const slice = createSlice({
   name: "preferences",
   initialState,
   reducers: {
-    reset: () => {
-      return {
-        appearance: DEFAULT_APPEARANCE,
-      } as const;
+    reset: (state) => {
+      state.appearance = DEFAULT_APPEARANCE;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(
-        load.fulfilled,
-        (state, action) => ({ ...state, ...action.payload }) as const,
-      )
-      .addCase(
-        setAppearance.fulfilled,
-        (state, action) => ({ ...state, appearance: action.payload }) as const,
-      );
+      .addCase(load.fulfilled, (state, { payload }) => {
+        state.appearance = payload.appearance;
+      })
+      .addCase(setAppearance.fulfilled, (state, { payload }) => {
+        state.appearance = payload;
+      });
   },
 });

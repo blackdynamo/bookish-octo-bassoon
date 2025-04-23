@@ -21,29 +21,16 @@ export const slice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(signIn.pending, (state) => {
-        console.info("auth/sign-in/pending");
-
-        return {
-          ...state,
-          authenticating: true,
-        } as const;
+        state.authenticating = true;
       })
-      .addCase(signIn.fulfilled, (state, action) => {
-        console.info("auth/sign-in/fulfilled");
-
-        return {
-          ...state,
-          ...action.payload,
-          authenticating: false,
-        } as const;
+      .addCase(signIn.fulfilled, (state, { payload }) => {
+        state.authenticated = payload.authenticated;
+        state.authenticating = false;
+        state.email = payload.email;
       })
-      .addCase(signOut.fulfilled, (state, action) => {
-        console.info("auth/sign-out/fulfilled");
-
-        return {
-          ...state,
-          ...action.payload,
-        } as const;
+      .addCase(signOut.fulfilled, (state, { payload }) => {
+        state.authenticated = payload.authenticated;
+        state.email = payload.email;
       });
   },
 });
