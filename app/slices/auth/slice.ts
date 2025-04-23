@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { signIn } from "./actions/sign-in";
+import { signOut } from "./actions/sign-out";
 
 type AuthState = {
   authenticated: boolean;
@@ -16,13 +17,7 @@ const initialState: AuthState = {
 export const slice = createSlice({
   name: "auth",
   initialState,
-  reducers: {
-    signOut: (state) => ({
-      ...state,
-      authenticated: false,
-      email: undefined,
-    }),
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(signIn.pending, (state) => {
@@ -40,6 +35,14 @@ export const slice = createSlice({
           ...state,
           ...action.payload,
           authenticating: false,
+        } as const;
+      })
+      .addCase(signOut.fulfilled, (state, action) => {
+        console.info("auth/sign-out/fulfilled");
+
+        return {
+          ...state,
+          ...action.payload,
         } as const;
       });
   },

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { load } from "~/slices/preferences/actions";
+import { load } from "./actions/load";
 import { setAppearance } from "./actions/set-appearance";
 import { DEFAULT_APPEARANCE, type Preferences } from "./schema";
 
@@ -12,7 +12,13 @@ const initialState: PreferencesState = {
 export const slice = createSlice({
   name: "preferences",
   initialState,
-  reducers: {},
+  reducers: {
+    reset: () => {
+      return {
+        appearance: DEFAULT_APPEARANCE,
+      } as const;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(

@@ -8,7 +8,10 @@ import type { Route } from "./+types/home";
 export const meta = (_meta: Route.MetaArgs) => {
   return [
     { title: "Redux Example" },
-    { name: "description", content: "Showing how things might be done in a redux land" },
+    {
+      name: "description",
+      content: "Showing how things might be done in a redux land",
+    },
   ];
 };
 
@@ -28,10 +31,15 @@ export default function Home() {
         {JSON.stringify(preferences, null, 2)}
       </div>
       <div className={"flex"}>
-        <Button onClick={() => dispatch(authActions.signIn())}>Sign In</Button>
-        <Button onClick={() => dispatch(authActions.signOut())}>
-          Sign Out
-        </Button>
+        {!auth.authenticated ? (
+          <Button onClick={() => dispatch(authActions.signIn())}>
+            Sign In
+          </Button>
+        ) : (
+          <Button onClick={() => dispatch(authActions.signOut())}>
+            Sign Out
+          </Button>
+        )}
       </div>
       {auth.authenticated && (
         <div className={"flex"}>
